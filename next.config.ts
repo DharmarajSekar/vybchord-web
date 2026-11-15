@@ -59,6 +59,9 @@ const nextConfig: NextConfig = {
   experimental: {
     // F2 attachments are up to 10 MB; the default Server Action body limit is 1 MB.
     serverActions: { bodySizeLimit: "11mb" },
+    // Hostinger build servers report 56 CPUs but cap memory; one worker per CPU
+    // exhausts it (worker SIGABRT). Two workers build all pages in seconds.
+    cpus: 2,
   },
   images: {
     // Product screenshots, covers etc. live in the public `media` bucket.
