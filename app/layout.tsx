@@ -18,6 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
   return {
     metadataBase: siteUrl ? new URL(siteUrl) : undefined,
+    title: { default: "Vybchord", template: "%s | Vybchord" },
   };
 }
 
