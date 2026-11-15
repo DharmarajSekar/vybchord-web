@@ -23,7 +23,7 @@ export default async function SiteLayout({ children }: LayoutProps<"/">) {
       </a>
       <AnnouncementBar message={settings?.announcement} />
       <Header />
-      <main id="main" className="flex flex-1 flex-col">
+      <main id="main" className="flex-1">
         {children}
       </main>
       <Footer settings={settings} />
