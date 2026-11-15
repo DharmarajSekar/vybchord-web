@@ -21,7 +21,10 @@ const SUMMARY_COLUMNS = "id, slug, title, client_name, anonymised, industry, lin
 /** Published case studies, newest first, optionally filtered by business line and industry. */
 export const getCaseStudies = cache(
   async (line?: BusinessLine, industry?: string): Promise<CaseStudySummary[]> => {
-    let query = createPublicClient()
+    const supabase = createPublicClient();
+    if (!supabase) return [];
+
+    let query = supabase
       .from("case_studies")
       .select(SUMMARY_COLUMNS)
       .eq("published", true)
@@ -36,7 +39,10 @@ export const getCaseStudies = cache(
 );
 
 export const getCaseStudyBySlug = cache(async (slug: string): Promise<CaseStudy | null> => {
-  const { data, error } = await createPublicClient()
+  const supabase = createPublicClient();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase
     .from("case_studies")
     .select("*")
     .eq("published", true)

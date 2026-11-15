@@ -11,12 +11,13 @@ export type ProductFaq = { question: string; answer: string };
 
 export type Product = Omit<
   ProductRow,
-  "modules" | "faqs" | "screenshots" | "deployment_options"
+  "modules" | "faqs" | "screenshots" | "deployment_options" | "security_notes"
 > & {
   modules: ProductModule[];
   faqs: ProductFaq[];
   screenshots: string[];
   deployment_options: string[];
+  security_notes: string[];
 };
 
 export type ProductSummary = Pick<
@@ -31,12 +32,16 @@ function toProduct(row: ProductRow): Product {
     faqs: parseStringRecords(row.faqs, ["question", "answer"]),
     screenshots: row.screenshots ?? [],
     deployment_options: row.deployment_options ?? [],
+    security_notes: row.security_notes ?? [],
   };
 }
 
 /** Published products for listings and the home showcase, in display order. */
 export const getProducts = cache(async (): Promise<ProductSummary[]> => {
-  const { data, error } = await createPublicClient()
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+
+  const { data, error } = await supabase
     .from("products")
     .select("id, slug, name, tagline, summary, domain, status")
     .eq("published", true)
@@ -47,7 +52,10 @@ export const getProducts = cache(async (): Promise<ProductSummary[]> => {
 });
 
 export const getProductBySlug = cache(async (slug: string): Promise<Product | null> => {
-  const { data, error } = await createPublicClient()
+  const supabase = createPublicClient();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase
     .from("products")
     .select("*")
     .eq("published", true)

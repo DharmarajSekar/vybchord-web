@@ -1,6 +1,6 @@
 import "server-only";
 import { cache } from "react";
-import { createPublicClient } from "@/lib/supabase/public";
+import { createPublicClient, type PublicClient } from "@/lib/supabase/public";
 import type { Tables } from "@/lib/supabase/types";
 
 type PostRow = Tables<"posts">;
@@ -16,8 +16,8 @@ export type PostSummary = Omit<Post, "body_mdx" | "created_at" | "updated_at">;
 const SUMMARY_COLUMNS =
   "id, slug, title, excerpt, cover_image, category, tags, author, published_at, seo_title, seo_description";
 
-function publishedPosts<Columns extends string>(columns: Columns) {
-  return createPublicClient()
+function publishedPosts<Columns extends string>(supabase: PublicClient, columns: Columns) {
+  return supabase
     .from("posts")
     .select(columns)
     .not("published_at", "is", null)
@@ -30,7 +30,10 @@ function normalise<T extends { tags: string[] | null; published_at: string | nul
 
 /** Published posts, newest first. Excludes the MDX body. */
 export const getPosts = cache(async (): Promise<PostSummary[]> => {
-  const { data, error } = await publishedPosts(SUMMARY_COLUMNS).order("published_at", {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+
+  const { data, error } = await publishedPosts(supabase, SUMMARY_COLUMNS).order("published_at", {
     ascending: false,
   });
   if (error) throw new Error(`Failed to load posts: ${error.message}`);
@@ -38,7 +41,10 @@ export const getPosts = cache(async (): Promise<PostSummary[]> => {
 });
 
 export const getPostBySlug = cache(async (slug: string): Promise<Post | null> => {
-  const { data, error } = await publishedPosts("*").eq("slug", slug).maybeSingle();
+  const supabase = createPublicClient();
+  if (!supabase) return null;
+
+  const { data, error } = await publishedPosts(supabase, "*").eq("slug", slug).maybeSingle();
   if (error) throw new Error(`Failed to load post "${slug}": ${error.message}`);
   return data ? normalise(data) : null;
 });

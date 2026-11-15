@@ -8,7 +8,6 @@ import { ProofStrip } from "@/components/site/home/proof-strip";
 import { getProducts } from "@/lib/data/products";
 import { getSiteSettings } from "@/lib/data/site-settings";
 import { bookDemoHref, contactHref } from "@/lib/site/navigation";
-import { isSupabaseConfigured } from "@/lib/supabase/env";
 
 export const revalidate = 3600;
 
@@ -26,10 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const configured = isSupabaseConfigured();
-  const [products, settings] = configured
-    ? await Promise.all([getProducts(), getSiteSettings()])
-    : [[], null];
+  const [products, settings] = await Promise.all([getProducts(), getSiteSettings()]);
 
   return (
     <>

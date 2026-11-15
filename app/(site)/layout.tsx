@@ -5,14 +5,12 @@ import { Footer } from "@/components/site/footer";
 import { Header } from "@/components/site/header";
 import { toWhatsAppNumber, WhatsAppButton } from "@/components/site/whatsapp-button";
 import { getSiteSettings } from "@/lib/data/site-settings";
-import { isSupabaseConfigured } from "@/lib/supabase/env";
 
 // Static with hourly ISR; admin settings edits should also call revalidatePath("/", "layout").
 export const revalidate = 3600;
 
 export default async function SiteLayout({ children }: LayoutProps<"/">) {
-  // Without Supabase env (fresh local checkout) render the shell without company details.
-  const settings = isSupabaseConfigured() ? await getSiteSettings() : null;
+  const settings = await getSiteSettings();
   const whatsapp = toWhatsAppNumber(settings?.whatsapp ?? process.env.NEXT_PUBLIC_WHATSAPP_NUMBER);
 
   return (

@@ -50,9 +50,19 @@ const securityHeaders = [
   },
 ];
 
+const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
+  ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname
+  : "*.supabase.co";
+
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
+  images: {
+    // Product screenshots, covers etc. live in the public `media` bucket.
+    remotePatterns: [
+      { protocol: "https", hostname: supabaseHost, pathname: "/storage/v1/object/public/**" },
+    ],
+  },
   turbopack: {
     rules: {
       "*.css": {

@@ -232,3 +232,7 @@ insert into products (slug, name, tagline, domain, status, sort_order, published
 
 -- After your first magic-link login, register yourself as admin:
 -- insert into admins (user_id, email) select id, email from auth.users where email = 'dharmaraj@<your-domain>';
+
+-- ---------- v1.1: product detail fields (FR-P3) — supabase/migrations/0002_product_detail_fields.sql ----------
+alter table products add column if not exists problem text;
+alter table products add column if not exists security_notes text[] default '{}';

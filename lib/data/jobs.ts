@@ -1,6 +1,6 @@
 import "server-only";
 import { cache } from "react";
-import { createPublicClient } from "@/lib/supabase/public";
+import { createPublicClient, type PublicClient } from "@/lib/supabase/public";
 import type { Enums, Tables } from "@/lib/supabase/types";
 
 type JobRow = Tables<"jobs">;
@@ -13,8 +13,8 @@ const SUMMARY_COLUMNS =
   "id, slug, title, type, location, work_mode, experience, skills, is_open, posted_at, valid_through";
 
 /** Open jobs whose `valid_through` has not passed. */
-function openJobs<Columns extends string>(columns: Columns) {
-  return createPublicClient()
+function openJobs<Columns extends string>(supabase: PublicClient, columns: Columns) {
+  return supabase
     .from("jobs")
     .select(columns)
     .eq("is_open", true)
@@ -23,7 +23,12 @@ function openJobs<Columns extends string>(columns: Columns) {
 
 /** Open jobs, newest first. Filter by type/location in the UI or with `filterJobs`. */
 export const getJobs = cache(async (): Promise<JobSummary[]> => {
-  const { data, error } = await openJobs(SUMMARY_COLUMNS).order("posted_at", { ascending: false });
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+
+  const { data, error } = await openJobs(supabase, SUMMARY_COLUMNS).order("posted_at", {
+    ascending: false,
+  });
   if (error) throw new Error(`Failed to load jobs: ${error.message}`);
   return data.map((job) => ({ ...job, skills: job.skills ?? [] }));
 });
@@ -43,7 +48,10 @@ export function filterJobs(jobs: JobSummary[], { type, location, query }: JobFil
 }
 
 export const getJobBySlug = cache(async (slug: string): Promise<Job | null> => {
-  const { data, error } = await openJobs("*").eq("slug", slug).maybeSingle();
+  const supabase = createPublicClient();
+  if (!supabase) return null;
+
+  const { data, error } = await openJobs(supabase, "*").eq("slug", slug).maybeSingle();
   if (error) throw new Error(`Failed to load job "${slug}": ${error.message}`);
   return data ? { ...data, skills: data.skills ?? [] } : null;
 });

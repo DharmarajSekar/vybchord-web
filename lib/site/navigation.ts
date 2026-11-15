@@ -46,3 +46,11 @@ export const legalNav: NavItem[] = [
 export function isActivePath(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
+
+export type ProductInterest = "demo" | "licence" | "ip_transfer";
+
+/** Contact form preselected for a product enquiry (F1 interest types). */
+export function productEnquiryHref(slug: string, interest: ProductInterest): string {
+  const params = new URLSearchParams({ topic: "product", product: slug, interest });
+  return `/contact?${params.toString()}`;
+}

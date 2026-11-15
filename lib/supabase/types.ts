@@ -372,6 +372,8 @@ export type Database = {
       };
       products: {
         Row: {
+          problem: string | null;
+          security_notes: string[] | null;
           created_at: string;
           deployment_options: string[] | null;
           domain: string | null;
@@ -391,6 +393,8 @@ export type Database = {
           updated_at: string;
         };
         Insert: {
+          problem?: string | null;
+          security_notes?: string[] | null;
           created_at?: string;
           deployment_options?: string[] | null;
           domain?: string | null;
@@ -410,6 +414,8 @@ export type Database = {
           updated_at?: string;
         };
         Update: {
+          problem?: string | null;
+          security_notes?: string[] | null;
           created_at?: string;
           deployment_options?: string[] | null;
           domain?: string | null;
