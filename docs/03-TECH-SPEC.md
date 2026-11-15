@@ -103,7 +103,7 @@ ADMIN_EMAILS=dharmaraj@<your-domain>   # comma-separated allow-list
 ### Option A — Business / Cloud plan (managed Node.js Web App)
 1. Push the repo to GitHub.
 2. hPanel → Websites → Create site → **Web App** → Import Git repository → select repo + `main`.
-3. Framework auto-detects Next.js. Build: `npm run build`; Start: `npm run start`. Node 20+.
+3. Framework auto-detects Next.js. Build: `npm run build`; Start: `npm run start`. Node 22+.
 4. Add all env vars from section 3 in the app's Environment settings.
 5. Connect the domain; enable free SSL.
 6. Every push to `main` redeploys; pull requests get preview builds.
