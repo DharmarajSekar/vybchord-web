@@ -12,13 +12,13 @@ npm run dev
 
 ## Scripts
 
-| Command             | Purpose                                     |
-| ------------------- | ------------------------------------------- |
-| `npm run dev`       | Local dev server                            |
-| `npm run build`     | Production build (`output: 'standalone'`)   |
-| `npm run start`     | Serve the production build                  |
-| `npm run lint`      | ESLint                                      |
-| `npm run typecheck` | Generate route types and run `tsc --noEmit` |
-| `npm run format`    | Prettier (with Tailwind class sorting)      |
+| Command             | Purpose                                        |
+| ------------------- | ---------------------------------------------- |
+| `npm run dev`       | Local dev server                               |
+| `npm run build`     | Production build (served with `npm run start`) |
+| `npm run start`     | Serve the production build                     |
+| `npm run lint`      | ESLint                                         |
+| `npm run typecheck` | Generate route types and run `tsc --noEmit`    |
+| `npm run format`    | Prettier (with Tailwind class sorting)         |
 
 Deployment to Hostinger is described in `docs/03-TECH-SPEC.md` section 6.

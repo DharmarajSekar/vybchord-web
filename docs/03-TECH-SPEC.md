@@ -60,7 +60,7 @@ vybchord-web/
 │  └─ migrations/0001_init.sql   # = 04-supabase-schema.sql
 ├─ public/
 ├─ middleware.ts              # protects /admin
-├─ next.config.ts             # output: 'standalone', security headers
+├─ next.config.ts             # security headers (served with next start)
 └─ .env.example
 ```
 

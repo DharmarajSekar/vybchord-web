@@ -55,7 +55,6 @@ const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
   : "*.supabase.co";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
   poweredByHeader: false,
   experimental: {
     // F2 attachments are up to 10 MB; the default Server Action body limit is 1 MB.
