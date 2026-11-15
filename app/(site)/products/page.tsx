@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { CtaBand } from "@/components/site/cta-band";
+import { PageHeader } from "@/components/site/page-header";
 import { ProductCard } from "@/components/site/product-card";
 import { getProducts } from "@/lib/data/products";
 import { bookDemoHref, contactHref } from "@/lib/site/navigation";
@@ -26,18 +26,11 @@ export default async function ProductsPage() {
 
   return (
     <>
-      <section aria-labelledby="products-title" className="border-b bg-muted/30">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-          <Breadcrumbs crumbs={[{ name: "Products", href: "/products" }]} />
-          <h1
-            id="products-title"
-            className="mt-8 text-4xl font-semibold tracking-tight text-balance sm:text-5xl"
-          >
-            Platforms you can deploy now
-          </h1>
-          <p className="mt-4 max-w-3xl text-lg text-pretty text-muted-foreground">{description}</p>
-        </div>
-      </section>
+      <PageHeader
+        crumbs={[{ name: "Products", href: "/products" }]}
+        title="Platforms you can deploy now"
+        description={description}
+      />
 
       <section aria-label="Product list" className="py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

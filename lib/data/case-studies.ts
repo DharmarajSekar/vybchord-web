@@ -14,9 +14,10 @@ export type CaseStudy = Omit<CaseStudyRow, "stack" | "images"> & {
 export type CaseStudySummary = Pick<
   CaseStudyRow,
   "id" | "slug" | "title" | "client_name" | "anonymised" | "industry" | "line" | "outcome"
-> & { image: string | null };
+> & { image: string | null; stack: string[] };
 
-const SUMMARY_COLUMNS = "id, slug, title, client_name, anonymised, industry, line, outcome, images";
+const SUMMARY_COLUMNS =
+  "id, slug, title, client_name, anonymised, industry, line, outcome, images, stack";
 
 /** Published case studies, newest first, optionally filtered by business line and industry. */
 export const getCaseStudies = cache(
@@ -34,7 +35,11 @@ export const getCaseStudies = cache(
 
     const { data, error } = await query;
     if (error) throw new Error(`Failed to load case studies: ${error.message}`);
-    return data.map(({ images, ...rest }) => ({ ...rest, image: images?.[0] ?? null }));
+    return data.map(({ images, stack, ...rest }) => ({
+      ...rest,
+      image: images?.[0] ?? null,
+      stack: stack ?? [],
+    }));
   },
 );
 
@@ -62,4 +67,21 @@ export async function getCaseStudyIndustries(): Promise<string[]> {
 export async function getCaseStudySlugs(): Promise<string[]> {
   const studies = await getCaseStudies();
   return studies.map((study) => study.slug);
+}
+
+/** Project case studies ranked by stack overlap (case-insensitive), then recency. */
+export async function getRelatedCaseStudies(
+  stack: string[],
+  limit = 3,
+): Promise<CaseStudySummary[]> {
+  const wanted = new Set(stack.map((item) => item.toLowerCase()));
+  const overlap = (study: CaseStudySummary) =>
+    study.stack.filter((item) => wanted.has(item.toLowerCase())).length;
+
+  const studies = await getCaseStudies("services");
+  return studies
+    .map((study, index) => ({ study, index, score: overlap(study) }))
+    .sort((a, b) => b.score - a.score || a.index - b.index)
+    .slice(0, limit)
+    .map(({ study }) => study);
 }
