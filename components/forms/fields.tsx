@@ -110,6 +110,8 @@ export function TextareaField<T extends FieldValues>({
             value={field.value ?? ""}
             id={id}
             rows={rows}
+            // shadcn Textarea sizes to content and ignores rows; keep rows as the minimum height.
+            style={{ minHeight: `${rows * 1.5 + 1}rem` }}
             aria-invalid={fieldState.invalid}
             aria-describedby={describedBy(id, description, fieldState.invalid)}
             aria-required={!optional}
