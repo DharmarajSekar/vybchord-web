@@ -14,7 +14,7 @@ type CtaBandProps = {
 export function CtaBand({ title, description, primary, secondary }: CtaBandProps) {
   return (
     <section aria-labelledby="cta-title" className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-      <div className="mx-auto max-w-7xl rounded-2xl bg-primary px-6 py-12 text-primary-foreground sm:px-12 sm:py-16">
+      <div className="mx-auto max-w-7xl rounded-2xl bg-linear-to-br from-brand-violet to-brand-blue px-6 py-12 text-primary-foreground sm:px-12 sm:py-16">
         <div className="max-w-2xl">
           <h2 id="cta-title" className="text-3xl font-semibold tracking-tight text-balance">
             {title}

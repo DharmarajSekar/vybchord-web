@@ -29,7 +29,7 @@ export function Footer({ settings }: { settings: SiteSettings | null }) {
     <footer className="border-t bg-muted/30">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[2fr_1fr_1fr] lg:px-8">
         <div className="space-y-4 text-sm">
-          <Logo />
+          <Logo variant="footer" className="-ml-1" />
           {settings && (
             <address className="space-y-1 text-muted-foreground not-italic">
               <p className="font-medium text-foreground">{settings.legal_name}</p>
