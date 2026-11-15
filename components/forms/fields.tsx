@@ -148,7 +148,7 @@ export function SelectField<T extends FieldValues>({
             <SelectTrigger
               id={id}
               ref={field.ref}
-              className="h-10 w-full"
+              className="h-10 w-full data-[size=default]:h-10"
               aria-invalid={fieldState.invalid}
               aria-describedby={describedBy(id, description, fieldState.invalid)}
             >

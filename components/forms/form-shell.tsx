@@ -92,7 +92,10 @@ export function FormShell<Input extends FieldValues, Output extends FieldValues>
         </label>
       </div>
 
-      {engaged && <Turnstile ref={turnstileRef} onToken={setToken} />}
+      {/* Space is reserved up front so the widget appearing never shifts the submit button. */}
+      <div className="min-h-[65px]">
+        {engaged && <Turnstile ref={turnstileRef} onToken={setToken} />}
+      </div>
 
       {formError && (
         <p role="alert" className="text-sm font-medium text-destructive">
