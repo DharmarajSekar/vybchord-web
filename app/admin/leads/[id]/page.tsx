@@ -5,7 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
 import { NoteForm } from "@/components/admin/leads/note-form";
+import { EraseButton } from "@/components/admin/erase-button";
 import { StatusSelect } from "@/components/admin/status-select";
+import { eraseLead } from "@/lib/admin/actions/privacy";
 import { updateLeadStatus } from "@/lib/admin/actions/records";
 import { requireAdmin } from "@/lib/admin/auth";
 import {
@@ -63,13 +65,22 @@ export default async function LeadPage({ params }: PageProps<"/admin/leads/[id]"
         title={lead.name ?? lead.email}
         description={`${formTypeLabel[lead.form_type]} · received ${formatDateTime(lead.created_at)}`}
         actions={
-          <StatusSelect
-            id={lead.id}
-            value={lead.status}
-            options={toOptions(leadStatusLabel)}
-            action={updateLeadStatus}
-            label="Lead status"
-          />
+          <>
+            <StatusSelect
+              id={lead.id}
+              value={lead.status}
+              options={toOptions(leadStatusLabel)}
+              action={updateLeadStatus}
+              label="Lead status"
+            />
+            <EraseButton
+              id={lead.id}
+              name={lead.name ?? lead.email}
+              what="lead, its notes and any attachment"
+              action={eraseLead}
+              redirectTo="/admin/leads"
+            />
+          </>
         }
       />
       <div className="grid gap-8 xl:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
@@ -125,7 +136,11 @@ export default async function LeadPage({ params }: PageProps<"/admin/leads/[id]"
                 </p>
               </li>
             ))}
-            {!notes?.length && <Badge variant="outline">No notes yet</Badge>}
+            {!notes?.length && (
+              <li>
+                <Badge variant="outline">No notes yet</Badge>
+              </li>
+            )}
           </ul>
         </section>
       </div>

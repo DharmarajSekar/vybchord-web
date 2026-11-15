@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+// Our CSP blocks eval; without this, zod probes new Function() and every form page logs a CSP
+// violation (NFR-5). Imported by every schema, so it applies before any parsing.
+z.config({ jitless: true });
+
 /** Hidden field bots fill in and people never see (tech spec §4 step 2). */
 export const HONEYPOT_FIELD = "website";
 export const TURNSTILE_FIELD = "cf-turnstile-response";

@@ -4,8 +4,10 @@ import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { FileDownIcon } from "lucide-react";
 import { DataTable } from "./data-table";
+import { EraseButton } from "./erase-button";
 import { SkillsEditor } from "./skills-editor";
 import { StatusSelect } from "./status-select";
+import { eraseApplication } from "@/lib/admin/actions/privacy";
 import { updateApplicationStatus } from "@/lib/admin/actions/records";
 import { appStatusLabel, formatDateTime, toOptions } from "@/lib/admin/labels";
 import type { Enums, Json } from "@/lib/supabase/types";
@@ -160,6 +162,20 @@ export function ApplicationsTable({
           options={statusOptions}
           action={updateApplicationStatus}
           label={`Status for ${row.original.name}`}
+        />
+      ),
+    },
+    {
+      id: "erase",
+      header: () => <span className="sr-only">Delete</span>,
+      enableSorting: false,
+      cell: ({ row }) => (
+        <EraseButton
+          id={row.original.id}
+          name={row.original.name}
+          what="application and CV"
+          action={eraseApplication}
+          compact
         />
       ),
     },

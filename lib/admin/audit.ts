@@ -3,7 +3,8 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import type { Json } from "@/lib/supabase/types";
 
 type AuditEntry = {
-  actor: string;
+  /** Admin user id, or null for system jobs (e.g. scheduled retention). */
+  actor: string | null;
   action: string;
   entity?: string;
   entityId?: string;

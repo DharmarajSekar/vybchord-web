@@ -33,9 +33,8 @@ export function ConsentBanner() {
             Analytics cookies
           </h2>
           <p className="text-muted-foreground">
-            With your consent, we use Google Analytics and Microsoft Clarity to understand how the
-            site is used and improve it. Essential cookies only keep the site working. You can
-            change this any time under Cookie settings.{" "}
+            We use Google Analytics and Microsoft Clarity only if you agree. Change this any time in
+            Cookie settings.{" "}
             <Link href="/legal/cookies" className="underline underline-offset-4">
               Cookie Policy
             </Link>

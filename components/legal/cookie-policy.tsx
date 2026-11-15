@@ -83,8 +83,9 @@ export function CookiePolicy() {
 
       <h2 id="embeds">Embedded content</h2>
       <p>
-        Our Contact and About pages show a Google Maps map of our office. Google may set its own
-        cookies when the map loads. Booking a call opens Cal.com in a new tab, under its own policy.
+        Our Contact and About pages can show a Google Maps map of our office. It loads only when you
+        choose &ldquo;Show map&rdquo;, and Google may then set its own cookies. Booking a call opens
+        Cal.com in a new tab, under its own policy.
       </p>
 
       <h2 id="control">Changing your choice</h2>

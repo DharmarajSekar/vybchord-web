@@ -20,7 +20,11 @@ export async function generateMetadata({
   params,
 }: PageProps<"/thank-you/[form]">): Promise<Metadata> {
   const page = getPage((await params).form);
-  return { title: page?.title ?? "Thank you", robots: { index: false, follow: false } };
+  return {
+    title: page?.title ?? "Thank you",
+    description: page?.lead,
+    robots: { index: false, follow: false },
+  };
 }
 
 /** FR-P13 per-form thank-you page with next steps and a booking link. */

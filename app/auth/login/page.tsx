@@ -6,7 +6,11 @@ import { safeAdminPath } from "@/lib/admin/allow-list";
 import { getAdmin } from "@/lib/admin/auth";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { title: "Admin sign in", robots: { index: false, follow: false } };
+  return {
+    title: "Admin sign in",
+    description: "Sign in to the Vybchord admin panel.",
+    robots: { index: false, follow: false },
+  };
 }
 
 const errors: Record<string, string> = {

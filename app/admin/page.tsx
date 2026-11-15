@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
+import { DataProtectionCard } from "@/components/admin/data-protection-card";
 import { LeadsTable } from "@/components/admin/leads/leads-table";
 import { requireAdmin } from "@/lib/admin/auth";
+import { retentionCutoff } from "@/lib/admin/retention";
 
 export async function generateMetadata(): Promise<Metadata> {
   return { title: "Dashboard" };
@@ -30,7 +32,7 @@ const lines = [
 /** FR-A1 dashboard: leads this week per business line, new applications, open jobs. */
 export default async function DashboardPage() {
   const { supabase } = await requireAdmin();
-  const [week, newApps, openJobs, recent] = await Promise.all([
+  const [week, newApps, openJobs, recent, expired] = await Promise.all([
     supabase.from("leads").select("form_type").gte("created_at", startOfWeekIST()),
     supabase.from("applications").select("id", { count: "exact", head: true }).eq("status", "new"),
     supabase.from("jobs").select("id", { count: "exact", head: true }).eq("is_open", true),
@@ -39,6 +41,10 @@ export default async function DashboardPage() {
       .select("id, created_at, form_type, status, name, email, company, attachment_path")
       .order("created_at", { ascending: false })
       .limit(8),
+    supabase
+      .from("applications")
+      .select("id", { count: "exact", head: true })
+      .lt("created_at", retentionCutoff()),
   ]);
   const counts = (types: string[]) =>
     (week.data ?? []).filter((lead) => types.includes(lead.form_type)).length;
@@ -69,6 +75,7 @@ export default async function DashboardPage() {
           </li>
         ))}
       </ul>
+      <DataProtectionCard expiredApplications={expired.count ?? 0} />
       <h2 className="mb-3 font-semibold">Latest leads</h2>
       <LeadsTable rows={recent.data ?? []} />
     </>
