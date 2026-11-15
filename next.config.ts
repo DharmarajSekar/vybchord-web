@@ -27,7 +27,7 @@ const csp = [
   `img-src 'self' data: blob: ${supabase[0]} ${ga.join(" ")} ${clarity.join(" ")}`,
   "font-src 'self' data:",
   `connect-src 'self' ${supabase.join(" ")} ${turnstile} ${ga.join(" ")} ${clarity.join(" ")} ${cal.join(" ")}`,
-  `frame-src ${turnstile} ${cal.join(" ")}`,
+  `frame-src ${turnstile} ${cal.join(" ")} https://www.google.com`,
   "frame-ancestors 'none'",
   "object-src 'none'",
   "base-uri 'self'",
@@ -57,6 +57,10 @@ const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
+  experimental: {
+    // F2 attachments are up to 10 MB; the default Server Action body limit is 1 MB.
+    serverActions: { bodySizeLimit: "11mb" },
+  },
   images: {
     // Product screenshots, covers etc. live in the public `media` bucket.
     remotePatterns: [
