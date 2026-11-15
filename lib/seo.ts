@@ -1,6 +1,7 @@
 import type { Job } from "@/lib/data/jobs";
 import type { Post } from "@/lib/data/posts";
 import type { Product } from "@/lib/data/products";
+import type { SiteSettings } from "@/lib/data/site-settings";
 import { mdxToText } from "@/lib/format";
 import { mediaUrl } from "@/lib/media";
 
@@ -114,3 +115,44 @@ export function jobPostingJsonLd(job: Job, hiringOrganization: string | undefine
     url: absoluteUrl(`/careers/${job.slug}`),
   };
 }
+
+/** NFR-2 Organization schema, from site_settings (CLAUDE.md rule 12). */
+export function organizationJsonLd(settings: SiteSettings | null) {
+  if (!settings) return null;
+  const url = process.env.NEXT_PUBLIC_SITE_URL;
+  const sameAs = Object.values(settings.socials).filter((link) => /^https?:\/\//.test(link));
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: settings.legal_name,
+    alternateName: "Vybchord",
+    url,
+    email: settings.email ?? undefined,
+    telephone: settings.phone ?? undefined,
+    taxID: settings.gstin ?? undefined,
+    identifier: settings.cin
+      ? { "@type": "PropertyValue", propertyID: "CIN", value: settings.cin }
+      : undefined,
+    address: settings.registered_office
+      ? {
+          "@type": "PostalAddress",
+          streetAddress: settings.registered_office,
+          addressCountry: "IN",
+        }
+      : undefined,
+    sameAs: sameAs.length ? sameAs : undefined,
+  };
+}
+
+/** Site-wide Open Graph fields. A page's openGraph replaces the parent's entirely, so pages spread these in. */
+export const ogSite = { siteName: "Vybchord", locale: "en_IN" };
+
+/**
+ * For pages without their own opengraph-image file: site fields plus the default share image.
+ * Pages that have their own image file must use `ogSite` instead, because `images` here would
+ * override that file.
+ */
+export const ogDefaults = {
+  ...ogSite,
+  images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Vybchord" }],
+};

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogDefaults } from "@/lib/seo";
 import { Suspense } from "react";
 import { PageHeader } from "@/components/site/page-header";
 import { PostGrid } from "@/components/site/insights/post-card";
@@ -18,7 +19,13 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     alternates: { canonical: "/insights" },
-    openGraph: { title, description, url: "/insights", type: "website" },
+    openGraph: {
+      ...ogDefaults,
+      title,
+      description,
+      url: "/insights",
+      type: "website",
+    },
   };
 }
 

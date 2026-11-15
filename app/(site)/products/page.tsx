@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogDefaults } from "@/lib/seo";
 import { CtaBand } from "@/components/site/cta-band";
 import { PageHeader } from "@/components/site/page-header";
 import { ProductCard } from "@/components/site/product-card";
@@ -16,7 +17,13 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     alternates: { canonical: "/products" },
-    openGraph: { title, description, url: "/products", type: "website" },
+    openGraph: {
+      ...ogDefaults,
+      title,
+      description,
+      url: "/products",
+      type: "website",
+    },
   };
 }
 

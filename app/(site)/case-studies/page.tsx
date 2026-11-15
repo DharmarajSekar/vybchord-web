@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogDefaults } from "@/lib/seo";
 import { Suspense } from "react";
 import { CaseStudyBrowser } from "@/components/site/case-studies/case-study-browser";
 import { CaseStudyGrid } from "@/components/site/case-studies/case-study-grid";
@@ -18,7 +19,13 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     alternates: { canonical: "/case-studies" },
-    openGraph: { title, description, url: "/case-studies", type: "website" },
+    openGraph: {
+      ...ogDefaults,
+      title,
+      description,
+      url: "/case-studies",
+      type: "website",
+    },
   };
 }
 

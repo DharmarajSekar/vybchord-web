@@ -14,9 +14,8 @@ import { ProductHero } from "@/components/site/product/product-hero";
 import { ScreenshotGallery } from "@/components/site/product/screenshot-gallery";
 import { getProductBySlug, getProductSlugs } from "@/lib/data/products";
 import { getSiteSettings } from "@/lib/data/site-settings";
-import { mediaUrl } from "@/lib/media";
 import { productEnquiryHref } from "@/lib/site/navigation";
-import { productJsonLd } from "@/lib/seo";
+import { productJsonLd, ogSite } from "@/lib/seo";
 
 // Published products are prebuilt; new ones render on first request, then refresh hourly.
 export const revalidate = 3600;
@@ -37,18 +36,17 @@ export async function generateMetadata({
     product.seo_title ?? `${product.name}${product.tagline ? ` — ${product.tagline}` : ""}`;
   const description = product.seo_description ?? product.summary ?? product.tagline ?? undefined;
   const url = `/products/${product.slug}`;
-  const image = product.screenshots[0];
 
   return {
     title,
     description,
     alternates: { canonical: url },
     openGraph: {
+      ...ogSite,
       title,
       description,
       url,
       type: "website",
-      images: image ? [{ url: mediaUrl(image), alt: `${product.name} screenshot` }] : undefined,
     },
   };
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogDefaults } from "@/lib/seo";
 import { CtaBand } from "@/components/site/cta-band";
 import { BusinessLines } from "@/components/site/home/business-lines";
 import { Differentiators } from "@/components/site/home/differentiators";
@@ -20,7 +21,13 @@ export async function generateMetadata(): Promise<Metadata> {
     title: { absolute: `Vybchord — ${title}` },
     description,
     alternates: { canonical: "/" },
-    openGraph: { title, description, url: "/", type: "website" },
+    openGraph: {
+      ...ogDefaults,
+      title,
+      description,
+      url: "/",
+      type: "website",
+    },
   };
 }
 

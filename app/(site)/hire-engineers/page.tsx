@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogDefaults } from "@/lib/seo";
 import Link from "next/link";
 import { FileLockIcon, RefreshCwIcon } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
@@ -28,7 +29,13 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     alternates: { canonical: "/hire-engineers" },
-    openGraph: { title, description, url: "/hire-engineers", type: "website" },
+    openGraph: {
+      ...ogDefaults,
+      title,
+      description,
+      url: "/hire-engineers",
+      type: "website",
+    },
   };
 }
 

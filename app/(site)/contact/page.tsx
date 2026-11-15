@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogDefaults } from "@/lib/seo";
 import { Suspense } from "react";
 import { ContactForms } from "@/components/forms/contact-forms";
 import { ContactDetails } from "@/components/site/contact-details";
@@ -17,7 +18,13 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     alternates: { canonical: "/contact" },
-    openGraph: { title, description, url: "/contact", type: "website" },
+    openGraph: {
+      ...ogDefaults,
+      title,
+      description,
+      url: "/contact",
+      type: "website",
+    },
   };
 }
 

@@ -456,6 +456,8 @@ export type Database = {
       };
       site_settings: {
         Row: {
+          grievance_officer_email: string | null;
+          grievance_officer_name: string | null;
           announcement: string | null;
           cin: string | null;
           email: string | null;
@@ -469,6 +471,8 @@ export type Database = {
           whatsapp: string | null;
         };
         Insert: {
+          grievance_officer_email?: string | null;
+          grievance_officer_name?: string | null;
           announcement?: string | null;
           cin?: string | null;
           email?: string | null;
@@ -482,6 +486,8 @@ export type Database = {
           whatsapp?: string | null;
         };
         Update: {
+          grievance_officer_email?: string | null;
+          grievance_officer_name?: string | null;
           announcement?: string | null;
           cin?: string | null;
           email?: string | null;

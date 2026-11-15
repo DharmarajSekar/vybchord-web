@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogDefaults } from "@/lib/seo";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { CtaBand } from "@/components/site/cta-band";
@@ -19,7 +20,13 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     alternates: { canonical: "/services" },
-    openGraph: { title, description, url: "/services", type: "website" },
+    openGraph: {
+      ...ogDefaults,
+      title,
+      description,
+      url: "/services",
+      type: "website",
+    },
   };
 }
 

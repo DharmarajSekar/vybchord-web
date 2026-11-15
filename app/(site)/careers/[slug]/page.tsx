@@ -11,7 +11,7 @@ import { getJobBySlug, getJobSlugs } from "@/lib/data/jobs";
 import { getSiteSettings } from "@/lib/data/site-settings";
 import { formatDate, mdxToText } from "@/lib/format";
 import { jobTypeLabel } from "@/lib/site/labels";
-import { jobPostingJsonLd } from "@/lib/seo";
+import { jobPostingJsonLd, ogSite } from "@/lib/seo";
 
 // Closed or expired roles drop out on the next refresh and return 404 (Google Jobs guidance).
 export const revalidate = 3600;
@@ -34,7 +34,12 @@ export async function generateMetadata({
     title,
     description,
     alternates: { canonical: url },
-    openGraph: { title, description, url },
+    openGraph: {
+      ...ogSite,
+      title,
+      description,
+      url,
+    },
   };
 }
 

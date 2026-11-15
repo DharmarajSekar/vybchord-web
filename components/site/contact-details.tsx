@@ -2,6 +2,7 @@ import { CalendarIcon, MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import type { SiteSettings } from "@/lib/data/site-settings";
 import { bookingUrl } from "@/lib/site/booking";
+import { OfficeMap } from "./office-map";
 
 /** FR-P11 sidebar: email, phone, address, map and booking link (all from site_settings / env). */
 export function ContactDetails({ settings }: { settings: SiteSettings | null }) {
@@ -72,15 +73,7 @@ export function ContactDetails({ settings }: { settings: SiteSettings | null }) 
         )}
       </dl>
 
-      {address && (
-        <iframe
-          title="Office location map"
-          src={`https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`}
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          className="aspect-[4/3] w-full rounded-xl border-0 bg-muted"
-        />
-      )}
+      {address && <OfficeMap address={address} />}
     </aside>
   );
 }

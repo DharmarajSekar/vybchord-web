@@ -19,6 +19,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: siteUrl ? new URL(siteUrl) : undefined,
     title: { default: "Vybchord", template: "%s | Vybchord" },
+    openGraph: { siteName: "Vybchord", locale: "en_IN", type: "website" },
+    twitter: { card: "summary_large_image" },
   };
 }
 

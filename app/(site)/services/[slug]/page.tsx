@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ogDefaults } from "@/lib/seo";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { buttonVariants } from "@/components/ui/button";
@@ -35,7 +36,13 @@ export async function generateMetadata({
     title: service.title,
     description: service.summary,
     alternates: { canonical: url },
-    openGraph: { title: service.title, description: service.summary, url, type: "website" },
+    openGraph: {
+      ...ogDefaults,
+      title: service.title,
+      description: service.summary,
+      url,
+      type: "website",
+    },
   };
 }
 

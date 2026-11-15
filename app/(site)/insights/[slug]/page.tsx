@@ -12,7 +12,7 @@ import { getPostBySlug, getPostSlugs, getRelatedPosts } from "@/lib/data/posts";
 import { getSiteSettings } from "@/lib/data/site-settings";
 import { formatDate, readingMinutes } from "@/lib/format";
 import { mediaUrl } from "@/lib/media";
-import { articleJsonLd } from "@/lib/seo";
+import { articleJsonLd, ogSite } from "@/lib/seo";
 
 export const revalidate = 3600;
 
@@ -36,6 +36,7 @@ export async function generateMetadata({
     alternates: { canonical: url },
     authors: post.author ? [{ name: post.author }] : undefined,
     openGraph: {
+      ...ogSite,
       title,
       description,
       url,
@@ -44,7 +45,6 @@ export async function generateMetadata({
       modifiedTime: post.updated_at,
       authors: post.author ? [post.author] : undefined,
       tags: post.tags,
-      images: post.cover_image ? [{ url: mediaUrl(post.cover_image) }] : undefined,
     },
   };
 }

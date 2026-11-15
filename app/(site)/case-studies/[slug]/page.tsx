@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
+import { ogSite } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { CtaBand } from "@/components/site/cta-band";
 import { PageHeader } from "@/components/site/page-header";
 import { ScreenshotGallery } from "@/components/site/product/screenshot-gallery";
 import { getCaseStudyBySlug, getCaseStudySlugs, type CaseStudy } from "@/lib/data/case-studies";
-import { mediaUrl } from "@/lib/media";
 import { businessLineLabel } from "@/lib/site/labels";
 import { bookDemoHref, projectEnquiryHref, staffingEnquiryHref } from "@/lib/site/navigation";
 
@@ -30,11 +30,11 @@ export async function generateMetadata({
     description,
     alternates: { canonical: url },
     openGraph: {
+      ...ogSite,
       title,
       description,
       url,
       type: "article",
-      images: study.images[0] ? [{ url: mediaUrl(study.images[0]) }] : undefined,
     },
   };
 }

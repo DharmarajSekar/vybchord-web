@@ -258,3 +258,7 @@ end; $$;
 -- Only the server (service role) may call it.
 revoke all on function hit_rate_limit(text, int, int) from public, anon, authenticated;
 grant execute on function hit_rate_limit(text, int, int) to service_role;
+
+-- ---------- v1.3: Grievance Officer (FR-P12, NFR-6) — supabase/migrations/0004_grievance_officer.sql ----------
+alter table site_settings add column if not exists grievance_officer_name text;
+alter table site_settings add column if not exists grievance_officer_email text;
